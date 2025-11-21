@@ -1,0 +1,87 @@
+// ===============================
+// 학교 DB 구조 (DBML)
+// ===============================
+
+// 학생 테이블
+Table 학생 {
+  학번 integer [pk]
+  이름 varchar
+  학년 integer
+  반 integer
+  담임교사 integer
+  created_at timestamp
+}
+
+// 교사 테이블
+Table 교사 {
+  교번 integer [pk]
+  이름 varchar
+  연락처 varchar
+  담당교과 varchar
+  담임학년 integer
+  담임반 integer
+  created_at timestamp
+}
+
+// 과목 테이블
+Table 과목 {
+  과목코드 varchar [pk]
+  과목명 varchar
+  교과군명 varchar
+  단위 integer
+  개설여부 boolean
+}
+
+// 개설과목 테이블
+Table 개설과목 {
+  개설ID integer [pk]
+  과목코드 varchar
+  교사 integer
+  학기 varchar
+  연도 integer
+}
+
+// 수강및성취기록 테이블
+Table 수강기록 {
+  수강기록ID integer [pk]
+  학번 integer
+  개설ID integer
+  점수 integer
+  성취도 varchar
+  이수단위 integer
+  수강학기 varchar
+}
+
+// 창체활동 테이블
+Table 창체활동 {
+  창체ID integer [pk]
+  학번 integer
+  활동구분 varchar
+  활동명 varchar
+  활동기간 varchar
+  시간 integer
+  성취도 varchar
+  학기 varchar
+}
+
+// ===============================
+// 테이블 간 관계 (Ref)
+// ===============================
+
+// 학생 - 교사 (담임)
+Ref: 학생.담임교사 > 교사.교번
+
+// 개설과목 - 과목
+Ref: 개설과목.과목코드 > 과목.과목코드
+
+// 개설과목 - 교사
+Ref: 개설과목.교사 > 교사.교번
+
+// 수강기록 - 학생
+Ref: 수강기록.학번 > 학생.학번
+
+// 수강기록 - 개설과목
+Ref: 수강기록.개설ID > 개설과목.개설ID
+
+// 창체활동 - 학생
+Ref: 창체활동.학번 > 학생.학번
